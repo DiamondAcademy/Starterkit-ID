@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diamond Academy — Starter Kit Anggota Baru 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1D9E75; --green-dark: #0F6E56; --green-deeper: #085041;
+    --green-light: #E1F5EE; --green-mid: #9FE1CB;
+    --blue: #378ADD; --blue-light: #E6F1FB;
+    --amber: #BA7517; --amber-light: #FAEEDA;
+    --coral: #D85A30; --coral-light: #FAECE7;
+    --purple: #7F77DD; --purple-light: #EEEDFE;
+    --gray-100: #F5F5F3; --gray-200: #E8E8E4;
+    --text: #1A1A18; --text-muted: #5F5E5A; --text-faint: #9B9B96;
+    --border: rgba(0,0,0,0.09);
+    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
+    --radius: 12px; --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F7F7F5; color: var(--text); min-height: 100vh; font-size: 17px; line-height: 1.65; }
+  .topbar { background: var(--green-deeper); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .topbar-brand { display: flex; align-items: center; gap: 8px; }
+  .topbar-diamond { font-size: 18px; color: #9FE1CB; }
+  .topbar-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .topbar-sub { font-size: 11px; color: rgba(255,255,255,0.6); }
+  .topbar-prog { display: flex; align-items: center; gap: 8px; }
+  .topbar-prog span { font-size: 11px; color: rgba(255,255,255,0.7); }
+  .topbar-bar { width: 80px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
+  .topbar-fill { height: 100%; background: #9FE1CB; border-radius: 2px; transition: width .4s; }
+  .hero { background: linear-gradient(160deg, var(--green-deeper) 0%, var(--green-dark) 50%, var(--green) 100%); padding: 40px 20px 50px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: '◆'; position: absolute; font-size: 200px; color: rgba(255,255,255,0.04); right: -30px; top: -20px; line-height: 1; }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
+  .hero h1 { font-size: 26px; font-weight: 600; color: #fff; margin-bottom: 8px; line-height: 1.3; }
+  .hero p { font-size: 14px; color: rgba(255,255,255,0.75); max-width: 340px; margin: 0 auto; }
+  .mod-nav { background: #fff; border-bottom: 1px solid var(--border); padding: 0 16px; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 44px; z-index: 90; }
+  .mod-nav::-webkit-scrollbar { display: none; }
+  .mod-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 14px; border: none; background: none; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all .15s; flex-shrink: 0; font-family: inherit; }
+  .mod-btn .num { font-size: 10px; font-weight: 600; color: var(--text-faint); }
+  .mod-btn .lbl { font-size: 11px; font-weight: 500; color: var(--text-muted); }
+  .mod-btn .chk { font-size: 10px; color: transparent; }
+  .mod-btn.active { border-bottom-color: var(--green); }
+  .mod-btn.active .num { color: var(--green-dark); }
+  .mod-btn.active .lbl { color: var(--green-deeper); }
+  .mod-btn.done .chk { color: var(--green); }
+  .mod-btn.done .lbl { color: var(--green-dark); }
+  .content { max-width: 600px; margin: 0 auto; padding: 20px 16px 80px; }
+  .mod { display: none; } .mod.show { display: block; }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
+  .card h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .card p, .card li { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+  .card ul { padding-left: 16px; }
+  .card-teal { border-left: 3px solid var(--green); }
+  .card-amber { border-left: 3px solid var(--amber); }
+  .card-blue { border-left: 3px solid var(--blue); }
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .04em; padding: 2px 8px; border-radius: 20px; margin-bottom: 6px; }
+  .bt { background: var(--green-light); color: var(--green-deeper); }
+  .ba { background: var(--amber-light); color: #4A2D00; }
+  .bb { background: var(--blue-light); color: #0C447C; }
+  .step-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+  .step-row:last-child { margin-bottom: 0; }
+  .sn { min-width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; flex-shrink: 0; margin-top: 1px; }
+  .sn-g { background: var(--green); } .sn-a { background: var(--amber); } .sn-b { background: var(--blue); }
+  .sc h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .sc p { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+  .sb { background: var(--gray-100); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 10px; }
+  .sb .sl { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
+  .sb p { font-size: 14px; color: var(--text); line-height: 1.75; font-style: italic; }
+  .sb .tip { font-size: 12px; color: var(--text-faint); margin-top: 8px; font-style: normal; padding-top: 8px; border-top: 1px solid var(--border); }
+  .tool { background: var(--gray-100); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px; }
+  .tool-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
+  .tool h4 { font-size: 14px; font-weight: 600; color: var(--text); }
+  .tool p { font-size: 13px; color: var(--text-muted); line-height: 1.55; margin-bottom: 10px; }
+  .tool-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--green-dark); background: var(--green-light); padding: 6px 12px; border-radius: var(--radius-sm); text-decoration: none; }
+  .pw-box { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+  .pw-val { font-family: monospace; font-size: 13px; font-weight: 600; color: var(--text); }
+  .zoom { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 8px; }
+  .zoom p { font-size: 11px; color: var(--text-muted); line-height: 1.8; }
+  .zoom a { color: var(--green); font-size: 11px; word-break: break-all; }
+  .zoom strong { color: var(--text); font-weight: 600; }
+  .sched { border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px; }
+  .sk { background: var(--green-light); } .sd { background: var(--blue-light); }
+  .sk h4 { font-size: 14px; font-weight: 600; color: var(--green-deeper); margin-bottom: 4px; }
+  .sd h4 { font-size: 14px; font-weight: 600; color: #0C447C; margin-bottom: 4px; }
+  .sk p { font-size: 13px; color: var(--green-dark); line-height: 1.6; }
+  .sd p { font-size: 13px; color: #185FA5; line-height: 1.6; }
+  .rc { border-radius: var(--radius-sm); padding: 13px; margin-bottom: 8px; }
+  .rc h3 { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+  .rc ul { padding-left: 14px; } .rc li { font-size: 13px; line-height: 1.65; }
+  .rc-sleep { background: var(--blue-light); } .rc-sleep h3 { color: #0C447C; } .rc-sleep li { color: #185FA5; }
+  .rc-energy { background: var(--amber-light); } .rc-energy h3 { color: #633806; } .rc-energy li { color: var(--amber); }
+  .rc-pain { background: var(--coral-light); } .rc-pain h3 { color: #4A1B0C; } .rc-pain li { color: var(--coral); }
+  .rc-health { background: var(--green-light); } .rc-health h3 { color: var(--green-deeper); } .rc-health li { color: var(--green-dark); }
+  .warn-box { background: #FEF2F2; border-radius: var(--radius-sm); padding: 13px; margin-bottom: 10px; }
+  .warn-box h4 { font-size: 13px; font-weight: 600; color: #7F1D1D; margin-bottom: 6px; }
+  .warn-box li { font-size: 13px; color: #991B1B; line-height: 1.65; }
+  .warn-box ul { padding-left: 14px; }
+  .co-header { background: var(--green); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+  .co-header h3 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .co-header p { font-size: 12px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+  .co-tiers { display: flex; gap: 10px; margin-bottom: 12px; }
+  .co-tier { flex: 1; border-radius: var(--radius-sm); padding: 14px; text-align: center; }
+  .co-t1 { background: var(--green-light); border: 1.5px solid var(--green); }
+  .co-t2 { background: var(--amber-light); border: 1.5px solid var(--amber); }
+  .co-t1 .pts { font-size: 30px; font-weight: 600; color: var(--green); }
+  .co-t2 .pts { font-size: 30px; font-weight: 600; color: var(--amber); }
+  .co-t1 h4 { font-size: 13px; font-weight: 600; color: var(--green-deeper); margin: 2px 0; }
+  .co-t2 h4 { font-size: 13px; font-weight: 600; color: #633806; margin: 2px 0; }
+  .co-t1 p { font-size: 11px; color: var(--green-dark); }
+  .co-t2 p { font-size: 11px; color: var(--amber); }
+  .rew { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: var(--radius-sm); margin-bottom: 8px; }
+  .rew-1 { background: var(--green-light); } .rew-2 { background: var(--blue-light); } .rew-3 { background: var(--amber-light); }
+  .rew-num { min-width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .rn1 { background: var(--green); } .rn2 { background: var(--blue); } .rn3 { background: var(--amber); }
+  .rew h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .rew-1 h4 { color: var(--green-deeper); } .rew-2 h4 { color: #0C447C; } .rew-3 h4 { color: #633806; }
+  .rew p { font-size: 12px; line-height: 1.5; }
+  .rew-1 p { color: var(--green-dark); } .rew-2 p { color: #185FA5; } .rew-3 p { color: var(--amber); }
+  .tracker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+  .tmonth { border-radius: var(--radius-sm); padding: 12px; }
+  .tm1 { background: var(--green-light); } .tm2 { background: var(--blue-light); } .tm3 { background: var(--amber-light); }
+  .tmonth h4 { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+  .tm1 h4 { color: var(--green-deeper); } .tm2 h4 { color: #0C447C; } .tm3 h4 { color: #633806; }
+  .tmonth ul { padding-left: 12px; } .tmonth li { font-size: 11px; line-height: 1.6; }
+  .tm1 li { color: var(--green-dark); } .tm2 li { color: #185FA5; } .tm3 li { color: var(--amber); }
+  .dose { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .dose:last-child { border-bottom: none; }
+  .dose-icon { font-size: 20px; min-width: 28px; text-align: center; }
+  .dose h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .dose p { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+  .rrow { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .rrow:last-child { border-bottom: none; }
+  .rt { font-size: 11px; font-weight: 600; color: var(--text-faint); min-width: 70px; padding-top: 2px; }
+  .ra h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .ra p { font-size: 13px; color: var(--text-muted); }
+  .ci { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .ci:last-child { border-bottom: none; }
+  .ci-box { min-width: 20px; height: 20px; border: 2px solid var(--gray-200); border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; margin-top: 1px; }
+  .ci-box.on { background: var(--green); border-color: var(--green); }
+  .ci-chk { font-size: 11px; color: #fff; display: none; font-weight: 700; }
+  .ci-box.on .ci-chk { display: block; }
+  .ci-txt h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; transition: all .2s; }
+  .ci-txt p { font-size: 13px; color: var(--text-muted); }
+  .ci.done .ci-txt h4 { color: var(--text-faint); text-decoration: line-through; }
+  .congrats { text-align: center; padding: 20px 0; }
+  .dia { font-size: 48px; color: var(--green); margin-bottom: 12px; }
+  .congrats h2 { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+  .congrats p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .ns { background: var(--green-light); border-radius: var(--radius); padding: 16px; text-align: left; margin-bottom: 12px; }
+  .ns h3 { font-size: 14px; font-weight: 600; color: var(--green-deeper); margin-bottom: 10px; }
+  .ns ul { padding-left: 16px; } .ns li { font-size: 13px; color: var(--green-dark); line-height: 1.8; }
+  .nav-btns { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-next { flex: 1; background: var(--green); color: #fff; border: none; border-radius: var(--radius-sm); padding: 13px 16px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .btn-back { background: var(--gray-100); color: var(--text-muted); border: none; border-radius: var(--radius-sm); padding: 13px 16px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
+  .prog-text { font-size: 12px; color: var(--text-faint); margin-top: 6px; }
+  .sec { font-size: 10px; font-weight: 700; color: var(--text-faint); letter-spacing: .08em; text-transform: uppercase; margin: 16px 0 8px; }
+  @media (max-width: 420px) { .g2, .tracker { grid-template-columns: 1fr; } .hero h1 { font-size: 22px; } .co-tiers { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-diamond">◆</div>
+    <div><div class="topbar-name">Diamond Academy</div><div class="topbar-sub">Starter Kit Anggota Baru 2026</div></div>
+  </div>
+  <div class="topbar-prog">
+    <span id="ptxt">1 / 6</span>
+    <div class="topbar-bar"><div class="topbar-fill" id="pfill" style="width:17%"></div></div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">Diamond Academy Indonesia</div>
+  <h1>Selamat Datang di Keluarga ASEA</h1>
+  <p>Panduan lengkap untuk memulai perjalanan kamu — dari hari pertama hingga sukses pertama kamu</p>
+</div>
+
+<div class="mod-nav">
+  <button class="mod-btn active" id="mn0" onclick="goTo(0)"><span class="num">01</span><span class="lbl">Selamat Datang</span><span class="chk" id="mc0">✓</span></button>
+  <button class="mod-btn" id="mn1" onclick="goTo(1)"><span class="num">02</span><span class="lbl">Cara Pakai Produk</span><span class="chk" id="mc1">✓</span></button>
+  <button class="mod-btn" id="mn2" onclick="goTo(2)"><span class="num">03</span><span class="lbl">Club One</span><span class="chk" id="mc2">✓</span></button>
+  <button class="mod-btn" id="mn3" onclick="goTo(3)"><span class="num">04</span><span class="lbl">Tools & Expose</span><span class="chk" id="mc3">✓</span></button>
+  <button class="mod-btn" id="mn4" onclick="goTo(4)"><span class="num">05</span><span class="lbl">Skrip</span><span class="chk" id="mc4">✓</span></button>
+  <button class="mod-btn" id="mn5" onclick="goTo(5)"><span class="num">06</span><span class="lbl">Rutinitas & Checklist</span><span class="chk" id="mc5">✓</span></button>
+</div>
+
+<div class="content">
+
+<div class="mod show" id="m0">
+  <div class="card card-teal">
+    <span class="badge bt">Selamat bergabung</span>
+    <h3>Kamu kini bagian dari kami</h3>
+    <p>Selamat datang di Diamond Academy — komunitas yang dibangun atas kepercayaan, konsistensi, dan sistem yang terbukti. Kamu bukan sekadar bergabung dengan bisnis. Kamu bergabung dengan keluarga yang akan menemani kamu di setiap langkah.</p>
+  </div>
+  <div class="card">
+    <span class="badge bt">Dukungan tim</span>
+    <h3>Kamu tidak sendirian</h3>
+    <ul>
+      <li>KKP (Kelas Pagi) — Senin–Jumat, pukul 07.00–08.00</li>
+      <li>Discover ASEA — Selasa &amp; Jumat, pukul 21.00–22.00</li>
+      <li>Grup WhatsApp aktif 24 jam</li>
+      <li>Upline siap membantu kapan saja</li>
+    </ul>
+  </div>
+  <div class="sec">4 hal wajib dalam 48 jam pertama</div>
+  <div class="card">
+    <div class="step-row"><div class="sn sn-g">1</div><div class="sc"><h4>Mulai minum ASEA Redox hari ini</h4><p>Jangan ditunda. Produk ini adalah fondasi bisnis kamu. Baca Modul 2 untuk cara penggunaan yang benar.</p></div></div>
+    <div class="step-row"><div class="sn sn-g">2</div><div class="sc"><h4>Hadiri KKP besok pagi — pukul 07.00</h4><p>KKP adalah jantung Diamond Academy. Tempat belajar, mendapat motivasi, dan merasakan semangat komunitas.</p></div></div>
+    <div class="step-row"><div class="sn sn-g">3</div><div class="sc"><h4>Pahami Club One — target 90 hari pertama</h4><p>Club One adalah standar minimum setiap anggota Diamond Academy. Baca Modul 3 untuk memahaminya sepenuhnya.</p></div></div>
+    <div class="step-row"><div class="sn sn-a">4</div><div class="sc"><h4>Kenali Bonus D300 — USD$300 menunggu kamu</h4><p>Dalam 90 hari pertama, capai D300 dua kali dalam empat minggu dengan 1.200 PGV kumulatif — dan ASEA akan mengirimkan bonus USD$300 langsung ke akun kamu. Baca Modul 3 untuk cara mencapainya.</p></div></div>
+  </div>
+  <div class="nav-btns"><button class="btn-next" onclick="nxt(0)">Selanjutnya: Cara Pakai Produk →</button></div>
+</div>
+
+<div class="mod" id="m1">
+  <div class="card card-teal">
+    <h3>Satu kalimat untuk menjelaskan ASEA Redox</h3>
+    <p style="font-size:14px;font-weight:600;color:#1A1A18;line-height:1.7">"ASEA Redox adalah minuman kesehatan yang membantu sel-sel tubuh bekerja lebih baik — sehingga tubuh lebih berenergi, tidur lebih nyenyak, dan pulih lebih cepat."</p>
+    <p style="margin-top:6px">Hafalkan kalimat ini. Gunakan setiap kali orang bertanya "ini produk apa?"</p>
+  </div>
+  <div class="sec">Panduan penggunaan ASEA Redox</div>
+  <div class="dose"><div class="dose-icon">☀</div><div><h4>Pagi — 60ml (2oz) sebelum makan</h4><p>Kumur perlahan 30 detik sebelum ditelan. Hindari makan 5–10 menit sebelum atau sesudah minum.</p></div></div>
+  <div class="dose"><div class="dose-icon">🌙</div><div><h4>Malam — 60ml (2oz) sebelum tidur</h4><p>Banyak anggota melaporkan tidur lebih nyenyak saat minum di malam hari. Ini dosis standar awal.</p></div></div>
+  <div class="dose"><div class="dose-icon">↑</div><div><h4>Gandakan setelah 7 hari jika perlu</h4><p>Jika berusia 50 tahun ke atas atau belum merasakan perubahan — gandakan menjadi 120ml pagi dan 120ml malam.</p></div></div>
+  <div class="sec">4 hasil utama yang paling sering dibagikan anggota</div>
+  <div class="rc rc-sleep"><h3>Tidur lebih nyenyak</h3><ul><li>Lebih mudah tertidur, bangun terasa segar</li><li>Sering dirasakan dalam minggu pertama</li></ul></div>
+  <div class="rc rc-energy"><h3>Lebih berenergi</h3><ul><li>Segar sepanjang hari, berkurang rasa kantuk</li><li>Cocok untuk ibu sibuk, pekerja, pensiunan</li></ul></div>
+  <div class="rc rc-pain"><h3>Rasa sakit berkurang</h3><ul><li>Nyeri sendi, lutut, badan terasa lebih ringan</li><li>Populer di kalangan lansia</li></ul></div>
+  <div class="rc rc-health"><h3>Kesehatan meningkat</h3><ul><li>Imunitas lebih kuat, kulit lebih segar</li><li>Mood stabil, pikiran lebih jernih</li></ul></div>
+  <div class="warn-box">
+    <h4>Jangan lakukan ini</h4>
+    <ul>
+      <li>Jangan dicampur dengan air atau minuman lain</li>
+      <li>Jangan minum langsung dari botol — gunakan gelas kecil</li>
+      <li>Jangan gunakan wadah logam — molekul redox akan terurai</li>
+      <li>Jangan terpapar suhu ekstrem sebelum diminum</li>
+    </ul>
+  </div>
+  <div class="sec">Cara menggunakan RENU28 (gel)</div>
+  <div class="card">
+    <div class="step-row"><div class="sn sn-g">1</div><div class="sc"><h4>Kocok setiap kali sebelum digunakan</h4><p>Penting untuk memastikan molekul redox tersebar merata dalam gel.</p></div></div>
+    <div class="step-row"><div class="sn sn-g">2</div><div class="sc"><h4>Oleskan dalam jumlah sedikit — 2x sehari</h4><p>Pagi dan malam. Bersihkan kulit terlebih dahulu. Gosok hingga terserap sepenuhnya.</p></div></div>
+    <div class="step-row"><div class="sn sn-g">3</div><div class="sc"><h4>Bisa digunakan di seluruh tubuh</h4><p>Bukan hanya wajah — perut, tangan, kaki, lutut. Kulit kering di awal adalah normal.</p></div></div>
+  </div>
+  <div class="card card-amber">
+    <h3>Berapa lama merasakan perubahan?</h3>
+    <p><strong>10%</strong> — dalam minggu pertama &nbsp;·&nbsp; <strong>50%</strong> — dalam 30 hari &nbsp;·&nbsp; <strong>90%</strong> — dalam 90 hari</p>
+    <p style="margin-top:5px">Itulah mengapa kami menyarankan komitmen minimum 90 hari untuk hasil yang optimal.</p>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(0)">← Kembali</button>
+    <button class="btn-next" onclick="nxt(1)">Selanjutnya: Club One →</button>
+  </div>
+</div>
+
+<div class="mod" id="m2">
+  <div class="co-header">
+    <h3>Apa itu Club One?</h3>
+    <p>Club One mengajarkan tindakan tepat yang membangun kesuksesan jangka panjang dan memberi penghargaan karena melakukannya. Semakin banyak kamu lakukan, semakin banyak poin terkumpul. Poin membuka hadiah, pengakuan, dan pertumbuhan dalam perjalanan ASEA kamu.</p>
+  </div>
+  <div class="co-tiers">
+    <div class="co-tier co-t1"><div class="pts">8</div><h4>Club One</h4><p>poin dalam 4 minggu</p></div>
+    <div class="co-tier co-t2"><div class="pts">15</div><h4>Club One+</h4><p>poin dalam 4 minggu</p></div>
+  </div>
+  <div class="card card-amber">
+    <h3>Syarat penting — wajib dipenuhi</h3>
+    <p>Minimum <strong>3 poin harus berasal dari pendaftaran baru</strong> (pelanggan atau Brand Partner) dalam setiap siklus. Tidak bisa mencapai Club One hanya dengan poin mentor atau build saja.</p>
+  </div>
+  <div class="sec">Cara mengumpulkan poin — 3 kategori</div>
+  <div class="card">
+    <div class="step-row"><div class="sn sn-g">S</div><div class="sc"><h4>Share — daftarkan anggota atau pelanggan baru</h4><p>4 poin — Brand Partner baru (100+ PV)<br>3 poin — Pelanggan langganan 50+ PV<br>2 poin — Pelanggan order sekali 50+ PV<br>1 poin — Upgrade pelanggan ke BP</p></div></div>
+    <div class="step-row"><div class="sn sn-b">M</div><div class="sc"><h4>Mentor — bantu anggota di bawah kamu raih Club One</h4><p>5 poin — Anggota bawah capai Club One untuk pertama kali<br>3 poin — Capai Club One ke-2 berturut-turut<br>3 poin — Capai Club One ke-3 berturut-turut<br><em style="font-size:11px;color:var(--text-faint)">Catatan: poin Mentor masuk siklus BERIKUTNYA</em></p></div></div>
+    <div class="step-row"><div class="sn sn-a">B</div><div class="sc"><h4>Build — bantu anggota bawah kamu capai D300</h4><p>8 poin — Anggota bawah capai D300 untuk pertama kali<br>7 poin — Anggota bawah memenuhi syarat Bonus D300 USD$300</p></div></div>
+  </div>
+  <div class="sec">Hadiah Jumpstart — 3 siklus pertama</div>
+  <div class="rew rew-1"><div class="rew-num rn1">1</div><div><h4>Siklus 1 — Club One</h4><p>Bonus USD$50 + Buka 30% Fast Start Bonus untuk semua pendaftaran BP di siklus ke-2</p></div></div>
+  <div class="rew rew-2"><div class="rew-num rn2">2</div><div><h4>Siklus 2 — Club One</h4><p>Bonus USD$75 + Buka 30% Fast Start Bonus untuk semua pendaftaran di siklus ke-3</p></div></div>
+  <div class="rew rew-3"><div class="rew-num rn3">3</div><div><h4>Siklus 3 — Club One</h4><p>Bonus USD$100 + 30% Fast Start Bonus siklus ke-4. Club One+ = DOUBLE Optimized Team Commissions</p></div></div>
+  <div class="sec">Rencana 90 hari kamu</div>
+  <div class="tracker">
+    <div class="tmonth tm1"><h4>Siklus 1</h4><ul><li>Pakai produk setiap hari</li><li>Hadir KKP konsisten</li><li>Daftarkan 1–2 pelanggan</li><li>Target: 8 poin</li></ul></div>
+    <div class="tmonth tm2"><h4>Siklus 2</h4><ul><li>Terus daftarkan anggota</li><li>Bantu anggota bawah</li><li>Poin Mentor masuk</li><li>Target: 8–15 poin</li></ul></div>
+    <div class="tmonth tm3"><h4>Siklus 3</h4><ul><li>Anggota bawah raih Club One</li><li>Bidik Club One+</li><li>Bidik D300</li><li>Target: 15+ poin</li></ul></div>
+  </div>
+  <div class="sec">Bonus D300 — USD$300 khusus untuk kamu</div>
+  <div class="card card-amber">
+    <span class="badge ba">ASEA ONE — Bonus Khusus 90 Hari</span>
+    <h3>Capai D300 dalam 90 hari pertama — dapat USD$300</h3>
+    <p>Ini adalah bonus satu kali yang ASEA siapkan khusus untuk anggota baru yang bergerak cepat. Dirancang untuk membuktikan bahwa sistem ini benar-benar bisa menghasilkan pendapatan nyata dalam waktu singkat.</p>
+  </div>
+  <div class="card">
+    <div class="step-row"><div class="sn sn-a">1</div><div class="sc"><h4>Capai D300 minimal 2 dari 4 minggu</h4><p>D300 artinya: 300 GV lesser leg (Binary Qualified) ATAU 450 PGV (Sponsorship Qualified) dalam satu minggu.</p></div></div>
+    <div class="step-row"><div class="sn sn-a">2</div><div class="sc"><h4>Kumpulkan 1.200 PGV kumulatif dalam 4 minggu tersebut</h4><p>PGV berasal dari pendaftaran kamu sendiri dan anggota dalam tim sponsorship kamu — setiap pelanggan dan Brand Partner baru dihitung.</p></div></div>
+    <div class="step-row"><div class="sn sn-a">3</div><div class="sc"><h4>Lakukan semua ini dalam 90 hari pertama sejak bergabung</h4><p>Periode waktu dimulai dari tanggal kamu mendaftar. Jangan tunda — setiap hari yang berlalu mempersempit jendela peluang ini.</p></div></div>
+  </div>
+  <div style="background:var(--amber-light);border-radius:var(--radius-sm);padding:13px;margin-bottom:10px;">
+    <p style="font-size:13px;color:#633806;font-weight:600;margin-bottom:4px;">Target mudah untuk meraih Bonus D300:</p>
+    <p style="font-size:13px;color:var(--amber);line-height:1.65">Daftarkan <strong>3 Brand Partner</strong> (150 PV masing-masing) = 450 PGV = D300 di minggu itu. Ulangi dua kali dalam 4 minggu. Kumpulkan 1.200 PGV kumulatif. Bonus USD$300 dikreditkan langsung ke akun kamu.</p>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(1)">← Kembali</button>
+    <button class="btn-next" onclick="nxt(2)">Selanjutnya: Tools &amp; Expose →</button>
+  </div>
+</div>
+
+<div class="mod" id="m3">
+  <div class="card card-teal">
+    <h3>Aturan paling penting</h3>
+    <p>Kirim <strong>hanya satu tool</strong> untuk satu prospek pada satu waktu. Terlalu banyak informasi = prospek bingung dan tidak melakukan apa-apa.</p>
+  </div>
+  <div class="sec">5 tools resmi Diamond Academy</div>
+  <div class="tool">
+    <div class="tool-top"><h4>1 — Testimoni Produk Nyata</h4><span class="badge bt">Website</span></div>
+    <p>Testimoni pengguna ASEA dari seluruh dunia. Kirim kepada prospek yang ingin melihat bukti hasil produk.</p>
+    <div class="pw-box"><span>Password:</span><span class="pw-val">diamond2023</span></div><br>
+    <a class="tool-link" href="https://realredoxexperience.com/" target="_blank">Buka Website ↗</a>
+  </div>
+  <div class="tool">
+    <div class="tool-top"><h4>2 — Video Redox Signalling (7 Menit)</h4><span class="badge bb">Video</span></div>
+    <p>Menjelaskan sains ASEA Redox dengan cara mudah dipahami. Kirim saat prospek bertanya "ini produk apa?"</p>
+    <a class="tool-link" href="https://youtu.be/CWcYDOGwa14?si=c26ZeXl0thC66FWs" target="_blank">Tonton Video ↗</a>
+  </div>
+  <div class="tool">
+    <div class="tool-top"><h4>3 — ASEA Genesis (Latar Belakang Perusahaan)</h4><span class="badge bb">Video</span></div>
+    <p>Kirim saat prospek bertanya "perusahaan ini bisa dipercaya?" Membangun kepercayaan terhadap perusahaan.</p>
+    <a class="tool-link" href="https://youtu.be/tdbbrK25pQc?si=VW8o5FUxiUlGJbub" target="_blank">Tonton Video ↗</a>
+  </div>
+  <div class="sched sk">
+    <h4>4 — KKP (Kelas Keajaiban Pagi)</h4>
+    <p>Senin–Jumat · Pukul 07.00–08.00 · <strong>Wajib min 3x seminggu</strong></p>
+    <div class="zoom">
+      <p><strong>Link:</strong> <a href="https://us02web.zoom.us/j/88528641899?pwd=SXJDWUVPQWxNVWZxaDNySEY1bGhOdz09" target="_blank">us02web.zoom.us/j/88528641899</a></p>
+      <p><strong>Meeting ID:</strong> 885 2864 1899 · <strong>Passcode:</strong> redox2024</p>
+    </div>
+  </div>
+  <div class="sched sd">
+    <h4>5 — Discover ASEA (Bawa Prospek Kamu)</h4>
+    <p>Selasa &amp; Jumat · Pukul 21.00–22.00 · <strong>Bawa prospek ke sini</strong></p>
+    <div class="zoom">
+      <p><strong>Link:</strong> <a href="https://us02web.zoom.us/j/82624771289?pwd=elZwZ3JQNXRNb3l3T3JjeXJmSmtUZz09" target="_blank">us02web.zoom.us/j/82624771289</a></p>
+      <p><strong>Meeting ID:</strong> 826 2477 1289 · <strong>Passcode:</strong> redox2024</p>
+    </div>
+  </div>
+  <div class="sec">Panduan — gunakan tool mana untuk siapa</div>
+  <div class="card">
+    <div class="step-row"><div class="sn sn-g">1</div><div class="sc"><h4>Tanya "ini produk apa?"</h4><p>→ Kirim Video Redox Signalling 7 Menit</p></div></div>
+    <div class="step-row"><div class="sn sn-g">2</div><div class="sc"><h4>Ingin melihat bukti dari orang lain</h4><p>→ Website Testimoni (password: diamond2023)</p></div></div>
+    <div class="step-row"><div class="sn sn-g">3</div><div class="sc"><h4>Tanya "perusahaan ini bisa dipercaya?"</h4><p>→ Video ASEA Genesis</p></div></div>
+    <div class="step-row"><div class="sn sn-g">4</div><div class="sc"><h4>Serius, banyak pertanyaan, ingin tahu lebih</h4><p>→ Ajak ke Discover ASEA — Selasa atau Jumat, pukul 21.00</p></div></div>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(2)">← Kembali</button>
+    <button class="btn-next" onclick="nxt(3)">Selanjutnya: Skrip →</button>
+  </div>
+</div>
+
+<div class="mod" id="m4">
+  <div class="card card-teal">
+    <h3>Cara menggunakan skrip ini</h3>
+    <p>Bukan untuk dihafal kata per kata. Ini adalah kerangka. Sesuaikan dengan bahasa kamu sendiri. Yang terpenting — tulus, bukan mau menjual, tapi mau membantu.</p>
+  </div>
+  <div class="sec">Skrip 1 — buka percakapan</div>
+  <div class="sb"><div class="sl">Kepada teman / kenalan</div><p>"Eh [nama], lama nggak ketemu. Apa kabar? Aku mau cerita sebentar — aku baru coba satu produk kesehatan, rasanya beda banget dibanding sebelumnya. Boleh aku share infonya?"</p><div class="tip">Tunggu mereka membalas dulu. Jangan langsung kirim video.</div></div>
+  <div class="sb"><div class="sl">Kepada keluarga</div><p>"[Nama], aku lagi minum suplemen ini sudah beberapa minggu. Tidur lebih nyenyak, badan lebih berenergi. Aku pikir mungkin cocok buat [ayah/ibu/adik] juga. Mau aku ceritain sebentar?"</p></div>
+  <div class="sec">Skrip 2 — kirim video 7 menit</div>
+  <div class="sb"><div class="sl">Setelah mereka setuju</div><p>"Oke, aku kirim video pendek — 7 menit aja. Njelasin sains di balik produk ini dengan cara yang gampang dimengerti. Tonton dulu, terus kita ngobrol ya."</p><div class="tip">Link: youtu.be/CWcYDOGwa14</div></div>
+  <div class="sec">Skrip 3 — follow-up 24 jam setelahnya</div>
+  <div class="sb"><div class="sl">Keesokan harinya</div><p>"Eh [nama], sudah sempat nonton video yang aku kirim kemarin? Mau tahu pendapat kamu."</p></div>
+  <div class="sb"><div class="sl">Kalau "belum sempat"</div><p>"Gak apa-apa, nanti kalau ada waktu ditonton ya. 7 menit aja kok. Kalau ada pertanyaan, kabari aku."</p></div>
+  <div class="sec">Skrip 4 — ajak ke Discover ASEA</div>
+  <div class="sb"><div class="sl">Untuk prospek serius</div><p>"[Nama], ada sesi online Selasa/Jumat malam ini jam 9. Banyak orang share pengalamannya pakai produk ini, ada tanya jawab juga. Gratis. Kamu join sekalian boleh?"</p><div class="tip">Zoom: us02web.zoom.us/j/82624771289 · Passcode: redox2024</div></div>
+  <div class="sec">Skrip 5 — saat ada keberatan</div>
+  <div class="sb"><div class="sl">Saat mereka bilang "mahal"</div><p>"Aku ngerti. Aku dulu juga ngerasa gitu. Tapi waktu aku hitung ulang, kalau bisa ngurangin sekali ke klinik sebulan, udah nutup harganya. Coba sebulan dulu — kalau gak kerasa perubahannya, gak perlu dilanjut."</p></div>
+  <div class="sb"><div class="sl">Saat mereka bilang "ini MLM ya?"</div><p>"Iya, ini bisnis network marketing — cara perusahaan mendistribusikan produk lewat orang-orang. Yang penting, produk ini punya sains di baliknya dan sudah diverifikasi laboratorium pihak ketiga. Mau lihat testimoni pengguna nyata?"</p><div class="tip">Kirim: realredoxexperience.com · Password: diamond2023</div></div>
+  <div class="sb"><div class="sl">Saat mereka bilang "mau pikir dulu"</div><p>"Oke, bagus — mau mikir memang baik. Boleh aku tanya satu hal — apa yang bikin kamu ragu? Mungkin aku bisa bantu jelaskan."</p></div>
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(3)">← Kembali</button>
+    <button class="btn-next" onclick="nxt(4)">Selanjutnya: Rutinitas &amp; Checklist →</button>
+  </div>
+</div>
+
+<div class="mod" id="m5">
+  <div class="sec">Rutinitas harian (1–2 jam saja)</div>
+  <div class="card">
+    <div class="rrow"><div class="rt">07–08 pagi</div><div class="ra"><h4>Minum Redox + Hadiri KKP</h4><p>Mulai hari dengan produk dan kelas pagi. Ini fondasi harian kamu.</p></div></div>
+    <div class="rrow"><div class="rt">Siang</div><div class="ra"><h4>Satu expose atau satu follow-up</h4><p>Hubungi satu prospek atau follow-up orang kemarin. 10–15 menit saja.</p></div></div>
+    <div class="rrow"><div class="rt">Sore</div><div class="ra"><h4>Bagikan cerita — status WhatsApp</h4><p>Foto produk, pengalaman hari ini, atau kutipan motivasi.</p></div></div>
+    <div class="rrow"><div class="rt">Jam 21.00</div><div class="ra"><h4>Discover ASEA (Selasa &amp; Jumat)</h4><p>Bawa prospek atau hadir sendiri. Selasa &amp; Jumat jam 9 malam.</p></div></div>
+    <div class="rrow"><div class="rt">Malam</div><div class="ra"><h4>Balas pesan + catat pengalaman produk</h4><p>Catat apa yang kamu rasakan setelah minum Redox hari ini.</p></div></div>
+  </div>
+  <div class="g2">
+    <div class="card card-teal"><h3>3 expose / minggu</h3><p>3 seminggu = 144 setahun. Konsistensi ini pasti menghasilkan sesuatu.</p></div>
+    <div class="card card-teal"><h3>KKP min 3x / minggu</h3><p>Anggota yang hadir KKP secara konsisten adalah anggota yang berkembang.</p></div>
+    <div class="card card-teal"><h3>Langganan aktif</h3><p>Produk aktif setiap bulan. Ini tanda keseriusan kamu.</p></div>
+    <div class="card card-teal"><h3>Update upline setiap Jumat</h3><p>Berapa expose, apa yang terjadi, apa hambatan minggu ini.</p></div>
+  </div>
+  <div class="sec">Checklist 48 jam pertama — klik untuk menandai</div>
+  <div class="card" id="cklist">
+    <div class="ci" onclick="tick(this,0)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Mulai minum ASEA Redox hari ini (60ml pagi)</h4><p>Ikuti panduan di Modul 2 untuk cara penggunaan yang benar.</p></div></div>
+    <div class="ci" onclick="tick(this,1)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Simpan nomor upline di HP</h4><p>Hubungi mereka sekarang dan perkenalkan diri kamu.</p></div></div>
+    <div class="ci" onclick="tick(this,2)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Bergabung grup WhatsApp Diamond Academy</h4><p>Minta link grup dari upline kamu.</p></div></div>
+    <div class="ci" onclick="tick(this,3)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Hadiri KKP pertama — jam 07.00, Senin–Jumat</h4><p>Zoom: us02web.zoom.us/j/88528641899 · Passcode: redox2024</p></div></div>
+    <div class="ci" onclick="tick(this,4)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Hadiri Discover ASEA — Selasa atau Jumat, jam 21.00</h4><p>Zoom: us02web.zoom.us/j/82624771289 · Passcode: redox2024</p></div></div>
+    <div class="ci" onclick="tick(this,5)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Tulis daftar 10 nama pertama kamu</h4><p>Keluarga, tetangga, teman, kenalan lama. Tulis di catatan HP sekarang.</p></div></div>
+    <div class="ci" onclick="tick(this,6)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Lakukan expose pertama bersama upline</h4><p>Minta upline tunjukkan caranya — lakukan bersama untuk pertama kali.</p></div></div>
+    <div class="ci" onclick="tick(this,7)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Pahami target Club One — 8 poin dalam 4 minggu</h4><p>Baca ulang Modul 3 jika perlu. Tanya upline jika ada pertanyaan.</p></div></div>
+    <div class="ci" onclick="tick(this,8)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Pahami Bonus D300 — USD$300 dalam 90 hari pertama</h4><p>Baca bagian Bonus D300 di Modul 3. Tanya upline untuk jelaskan target minggu pertama kamu.</p></div></div>
+    <div class="ci" onclick="tick(this,9)"><div class="ci-box"><span class="ci-chk">✓</span></div><div class="ci-txt"><h4>Selesaikan semua 6 modul Starter Kit ini</h4><p>Kamu hampir selesai — satu langkah lagi.</p></div></div>
+  </div>
+  <div class="prog-text" id="cprog">0 / 10 selesai</div>
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(4)">← Kembali</button>
+    <button class="btn-next" onclick="nxt(5)">Selesai — Lihat Ringkasan →</button>
+  </div>
+</div>
+
+<div class="mod" id="m6">
+  <div class="congrats">
+    <div class="dia">◆</div>
+    <h2>Selamat — Kamu Sudah Siap!</h2>
+    <p>Kamu telah menyelesaikan Starter Kit Diamond Academy. Kamu kini memahami produk, memahami Club One, punya semua tools, tahu apa yang perlu disampaikan, dan punya rutinitas yang jelas untuk diikuti.</p>
+    <div class="ns">
+      <h3>Lakukan ini hari ini juga:</h3>
+      <ul>
+        <li>Minum 60ml ASEA Redox jika belum</li>
+        <li>Set pengingat KKP besok jam 07.00</li>
+        <li>Tulis 10 nama pertama kamu sekarang</li>
+        <li>Hubungi satu orang dari daftar itu malam ini</li>
+        <li>Kirim pesan ke upline: "Saya sudah selesai Starter Kit ◆"</li>
+        <li>Set pengingat Discover ASEA Selasa/Jumat jam 21.00</li>
+        <li><strong>Tanya upline kamu: "Apa langkah pertama untuk capai Bonus D300 minggu ini?"</strong></li>
+      </ul>
+    </div>
+    <div style="background:var(--amber-light);border-radius:var(--radius-sm);padding:13px;margin:14px 0 0;text-align:left;">
+      <p style="font-size:12px;font-weight:600;color:#633806;margin-bottom:4px;">⏱ Ingat — Bonus D300 USD$300 kamu</p>
+      <p style="font-size:12px;color:var(--amber);line-height:1.6">Jendela 90 hari dimulai dari hari kamu bergabung. Capai D300 dua kali dalam empat minggu + 1.200 PGV kumulatif. Upline kamu akan membantu. Bergerak sekarang.</p>
+    </div>
+    <p style="font-size:12px;color:var(--text-faint);margin-top:16px">Target kamu: Club One dalam siklus pertama.<br>Caranya: Share, Mentor, Build — setiap hari, setiap minggu, konsisten.</p>
+    <button class="btn-next" style="max-width:260px;margin:20px auto 0;display:block" onclick="goTo(0)">← Ulangi dari Awal</button>
+  </div>
+</div>
+
+</div>
+<script>
+var done=[false,false,false,false,false,false];
+var chk=[false,false,false,false,false,false,false,false,false,false];
+function goTo(i){
+  document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('show')});
+  document.getElementById('m'+i).classList.add('show');
+  document.querySelectorAll('.mod-btn').forEach(function(b,idx){b.classList.remove('active');if(done[idx])b.classList.add('done');else b.classList.remove('done');});
+  if(i<6)document.getElementById('mn'+i).classList.add('active');
+  var pct=i>=6?100:Math.round(((i+1)/6)*100);
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('ptxt').textContent=i<6?(i+1)+' / 6':'Selesai!';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nxt(i){done[i]=true;document.getElementById('mc'+i).style.color='#1D9E75';goTo(i+1);}
+function tick(el,i){chk[i]=!chk[i];el.querySelector('.ci-box').classList.toggle('on',chk[i]);el.classList.toggle('done',chk[i]);var t=chk.filter(function(c){return c}).length;document.getElementById('cprog').textContent=t+' / 10 selesai';}
+</script>
+</body>
+</html>
